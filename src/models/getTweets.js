@@ -16,7 +16,7 @@ function generateUrlLocLangRec(geo, lang) {
         return "https://api.twitter.com/1.1/search/tweets.json?q=geocode=" + geo + ",1km&result_type=recent";
 
     } else if (geo === null) {
-        return "https://api.twitter.com/1.1/search/tweets.json?q=lang=" + lang + ",1km&result_type=recent";
+        return "https://api.twitter.com/1.1/search/tweets.json?q=lang=" + lang + "&result_type=recent";
     } else {
         return "https://api.twitter.com/1.1/search/tweets.json?q=geocode" + geo + ",1km&lang=" + lang + "&result_type=recent";
 
@@ -27,7 +27,7 @@ function generateUrlLocLangPop(geo, lang) {
         return "https://api.twitter.com/1.1/search/tweets.json?q=geocode=" + geo + ",1km&result_type=popular";
 
     } else if (geo === null) {
-        return "https://api.twitter.com/1.1/search/tweets.json?q=lang=" + lang + ",1km&result_type=popular";
+        return "https://api.twitter.com/1.1/search/tweets.json?q=lang=" + lang + "&result_type=popular";
     } else {
         return "https://api.twitter.com/1.1/search/tweets.json?q=geocode" + geo + ",1km&lang=" + lang + "&result_type=popular";
 
