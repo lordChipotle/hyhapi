@@ -3,6 +3,8 @@ const app = express();
 const trends = require("./src/api/trends-route")
 const tweets = require("./src/api/tweets-route")
 const cors = require("cors");
+const users =require('./src/api/user-route');
+
 //cors
 app.use(cors()); 
 
@@ -12,6 +14,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/trends",trends);
 app.use("/tweets",tweets);
+app.use('/users',users);
+
 
 const logger = (req, res, next) => {
     console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
