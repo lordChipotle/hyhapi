@@ -11,6 +11,15 @@ module.exports = class getTweetsService {
                 .catch(err => reject(err))
         });
     }
+    getdaOG(hashT){
+        return new Promise((resolve, reject) => {
+            tweets.getdaOG(hashT)
+                .then(res => {
+                    resolve(res)
+                })
+                .catch(err => reject(err))
+        });    
+    }
     getRecByHash(hashT) {
         return new Promise((resolve, reject) => {
             tweets.getRecByHashtag(hashT)

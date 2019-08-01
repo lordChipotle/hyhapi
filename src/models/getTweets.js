@@ -9,6 +9,8 @@ var Tweets = function (factor) {
     this.user=factor.user;
 
 }
+var moment = require('moment');
+moment().format();
 
 
 function generateUrlLocLangRec(geo, lang) {
@@ -58,7 +60,43 @@ function generateUrlUserHashPop(user,hash) {
     }
 }
 
+function findOG(tweets){
+    var OG = tweets[0].created_at;
+    for (var i = 0; i<tweets.length;i++){
+        
+        
+        if (moment(convertTweetDate(tweets[i].created_at)).isBefore(convertTweetDate(tweets[i+1].created_at), 'second')){
+            OG = tweets[i].created_at;
+        }
+        else{
+            if ((i+1)<tweets.length){
+                OG = tweets[i+1].created_at;
+            }
+            else{
+                OG = OG;
+            }
+        }
+        
 
+    }
+    return searchOG(OG,tweets);
+    
+
+    
+}
+function searchOG(OGdate,tweets_json) {
+
+  for (var i = 0; i < tweets_json.length; i++) {
+    // look for the entry with a matching `code` value
+    if (tweets_json[i].created_at == OGdate) {
+      // we found it
+      return tweets_json[i].user.id;
+    }
+  }
+}
+function convertTweetDate(tweetDate){
+    return moment(tweetDate, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en');
+}
 
 function convertToGeocode(city){
     for (var i = 0; i < cities.length; i++){
@@ -100,6 +138,22 @@ Tweets.getPopByHashtag = (hashtag) => {
     });
 
 }
+Tweets.getdaOG = (hashtag) => {
+    return new Promise((resolve, reject) => {
+        client.get(generateUrlUserHashPop(null,hashtag), params, function (error, tweets, response) {
+            if (error) {
+                console.log("error:", error);
+                reject(error);
+            }
+            else {
+                // console.log(response);
+                resolve(findOG(tweets));
+            }
+        });
+    });
+
+}
+
 Tweets.getPopByUser = (username) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashPop(username,null), params, function (error, tweets, response) {

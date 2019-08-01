@@ -129,4 +129,17 @@ router.get("/recent/username/:user", (req, res) => {
       res.status(400).json({ msg: err.message });
     });
 });
-module.exports = router;
+router.get("/OG/:hashtag", (req, res) => {
+  console.log("ROUTES!")
+  TWEETS
+  .getdaOG(req.params.hashtag)
+  .then(result => { 
+    console.log("MADE IT")
+    var parsedata = JSON.stringify(result, null, "\t");
+    res.send(parsedata);
+    console.log("ayy")
+  })
+  .catch(err => {
+    res.status(400).json({ msg: err.message });
+  });
+});module.exports = router;

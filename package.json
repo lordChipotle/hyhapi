@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "cities.json": "^1.1.5",
+    "compare-dates": "^2.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "moment": "^2.24.0",
     "twitter": "^1.7.1",
     "xmlhttprequest": "^1.8.0"
   },
