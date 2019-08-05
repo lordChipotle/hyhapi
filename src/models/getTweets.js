@@ -12,7 +12,7 @@ var Tweets = function (factor) {
 var moment = require('moment');
 moment().format();
 
-
+//Here's all the URL generation functions for the api calls
 function generateUrlLocLangRec(geo, lang) {
     if (lang === null) {
         return "https://api.twitter.com/1.1/search/tweets.json?q=geocode=" + geo + ",1km&result_type=recent";
@@ -60,6 +60,8 @@ function generateUrlUserHashPop(user,hash) {
     }
 }
 
+//function findOG is supposed to find the first tweeter user that started certain viral trend.
+//The function is still under testing and not functioning atm
 function findOG(tweets){
     var OG = tweets[0].created_at;
     for (var i = 0; i<tweets.length;i++){
@@ -84,6 +86,8 @@ function findOG(tweets){
 
     
 }
+
+//searchOG is under testing and will not function either
 function searchOG(OGdate,tweets_json) {
 
   for (var i = 0; i < tweets_json.length; i++) {
@@ -94,10 +98,12 @@ function searchOG(OGdate,tweets_json) {
     }
   }
 }
+
+//convert tweeter date format to standard timestamp format
 function convertTweetDate(tweetDate){
     return moment(tweetDate, 'dd MMM DD HH:mm:ss ZZ YYYY', 'en');
 }
-
+//convert a City name to geo code, working but not working properly 
 function convertToGeocode(city){
     for (var i = 0; i < cities.length; i++){
         // look for the entry with a matching `code` value
@@ -108,6 +114,9 @@ function convertToGeocode(city){
       }
 }
 var params = { screen_name: 'nodejs' };
+
+
+//get recent tweets by hashtag
 Tweets.getRecByHashtag = (hashtag) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashRec(null,hashtag), params, function (error, tweets, response) {
@@ -123,6 +132,8 @@ Tweets.getRecByHashtag = (hashtag) => {
     });
 
 }
+
+//get popular tweets by hashtag
 Tweets.getPopByHashtag = (hashtag) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashPop(null,hashtag), params, function (error, tweets, response) {
@@ -138,6 +149,8 @@ Tweets.getPopByHashtag = (hashtag) => {
     });
 
 }
+
+//get the first user that start viral trends (not working)
 Tweets.getdaOG = (hashtag) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashPop(null,hashtag), params, function (error, tweets, response) {
@@ -154,6 +167,8 @@ Tweets.getdaOG = (hashtag) => {
 
 }
 
+
+//find popular tweets by certain user
 Tweets.getPopByUser = (username) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashPop(username,null), params, function (error, tweets, response) {
@@ -169,6 +184,9 @@ Tweets.getPopByUser = (username) => {
     });
 
 }
+
+
+//get recent tweets by certain user
 Tweets.getRecByUser = (username) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashRec(username,null), params, function (error, tweets, response) {
@@ -184,6 +202,9 @@ Tweets.getRecByUser = (username) => {
     });
 
 }
+
+
+//get recent tweets by user and their hashtag
 Tweets.getRecByUserHash = (username,hash) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashRec(username,hash), params, function (error, tweets, response) {
@@ -199,6 +220,9 @@ Tweets.getRecByUserHash = (username,hash) => {
     });
 
 }
+
+//get popular tweets by user and their hashtag
+
 Tweets.getPopByUserHash = (username,hash) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlUserHashPop(username,hash), params, function (error, tweets, response) {
@@ -214,6 +238,9 @@ Tweets.getPopByUserHash = (username,hash) => {
     });
 
 }
+
+
+//get recent tweets near certain city
 Tweets.getRecByLoc = (city) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangRec(convertToGeocode(city), null), params, function (error, tweets, response) {
@@ -229,6 +256,8 @@ Tweets.getRecByLoc = (city) => {
     });
 
 }
+
+//get recent tweets in certain language
 Tweets.getRecByLang = (lang) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangRec(null, lang), params, function (error, tweets, response) {
@@ -244,6 +273,8 @@ Tweets.getRecByLang = (lang) => {
     });
 
 }
+
+//get recent tweets by certain city and language
 Tweets.getRecByBoth = (city, lang) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangRec(convertToGeocode(city), lang), params, function (error, tweets, response) {
@@ -259,6 +290,9 @@ Tweets.getRecByBoth = (city, lang) => {
     });
 
 }
+
+
+//get popular tweets near certain city
 Tweets.getPopByLoc = (city) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangPop(convertToGeocode(city), null), params, function (error, tweets, response) {
@@ -274,6 +308,8 @@ Tweets.getPopByLoc = (city) => {
     });
 
 }
+
+//get populaer tweets near certain city and in certain langauge
 Tweets.getPopByBoth = (city, lang) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangPop(convertToGeocode(city), lang), params, function (error, tweets, response) {
@@ -289,6 +325,7 @@ Tweets.getPopByBoth = (city, lang) => {
     });
 
 }
+//get popular tweets in certain language
 Tweets.getPopByLang = (lang) => {
     return new Promise((resolve, reject) => {
         client.get(generateUrlLocLangPop(null, lang), params, function (error, tweets, response) {
@@ -304,6 +341,8 @@ Tweets.getPopByLang = (lang) => {
     });
 
 }
+
+//just to return a json file with all the cities'geocodes, ayyy
 Tweets.getAllCities=()=>{
     return new Promise((resolve, reject) => {
         resolve(cities);
