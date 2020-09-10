@@ -1,4 +1,4 @@
-# hyhapi
+# HaveYouHeard-BackendDev
 This is a repository for the backend I've built during my Software Engineer internship at HaveYouHeard (Pty)Ltd. 
 The backend integrated Twitter API and a third-party API named RiteKite to allow the application to query data such as tweets, twitter accounts, and hashtags. The end goal of the backend is to track and output the earliest tweet/user account that started certain trending hashtags to the front-end application.
 
